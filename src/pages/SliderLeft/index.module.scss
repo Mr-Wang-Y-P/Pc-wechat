@@ -1,0 +1,22 @@
+.sliderLeft{
+   height: 100vh;
+   .menu{
+      height: 100%;
+      position: relative;
+      li:nth-of-type(1){
+         margin-bottom: 30px;
+      }
+      li:nth-last-of-type(3){
+         position: absolute;
+        bottom: 110px;
+      }
+      li:nth-last-of-type(2){
+         position: absolute;
+        bottom: 65px;
+      } li:nth-last-of-type(1){
+         position: absolute;
+        bottom: 20px;
+      }
+   }
+  
+}
