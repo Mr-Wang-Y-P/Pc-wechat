@@ -9,7 +9,6 @@ export default function Layout() {
       <div className={styles.right}>
       <Outlet />
       </div>
-     
     </div>
   );
 }

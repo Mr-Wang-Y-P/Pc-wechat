@@ -1,40 +1,42 @@
-.action{
-    height: 100%;
+.action {
+    height: 100vh;
     overflow: auto;
-    .actionBg{
-        width: 100%;
-        height: 200px;
-        background-color: aqua;
-    }
-    .actionContent{
-        width: 100%;
-        height: calc(100% - 200px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        .actionBody{
-            width: 96%;
-            height: calc(100% + 120px);
-            border-radius: 20px;
-            background-color: white;
-            position: relative;
-            .actionTitle{
-                position: absolute;
-                right: 150px;
-                top: 20px;
-            }
-            .actionLogo{
-                position: absolute;
-                right: 20px;
-                top: -50px;
-                width: 100px;
-                height: 100px;
-                img{
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                }
-            }
+//   height: 100%;
+//   overflow: auto;
+  .actionBg {
+    width: 100%;
+    height: 200px;
+    background-color: aqua;
+  }
+  .actionContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .actionHeader {
+      margin: 2%;
+      width: 96%;
+      height: 120px;
+      border-radius: 60px;
+      background-color: white;
+      position: relative;
+      top: -60px;
+      .actionTitle {
+        position: absolute;
+        right: 150px;
+        top: 20px;
+      }
+      .actionLogo {
+        position: absolute;
+        right: 20px;
+        top: -50px;
+        width: 100px;
+        height: 100px;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
         }
+      }
     }
+  }
 }
