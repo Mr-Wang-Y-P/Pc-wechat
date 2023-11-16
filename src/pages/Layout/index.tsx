@@ -7,7 +7,7 @@ export default function Layout() {
     <div className={styles.layout}>
       <SliderLeft></SliderLeft>
       <div className={styles.right}>
-      <Outlet />
+        <Outlet />
       </div>
     </div>
   );
