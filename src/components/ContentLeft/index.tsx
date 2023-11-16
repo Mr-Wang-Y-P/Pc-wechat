@@ -25,7 +25,7 @@ function ContentLeft() {
   const searchInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase().trim();
     if (inputValue === "") {
-        setCurrentData(data);
+      setCurrentData(data);
     } else {
       const filteredData = data?.reduce((acc: DataType[], item) => {
         const users = item?.users.filter((user) =>
@@ -42,14 +42,16 @@ function ContentLeft() {
 
   return (
     <div className="w-full h-[100vh] border-solid  border-r flex flex-col items-center">
-      <Input
-        onChange={(e) => searchInfo(e)}
-        size="large"
-        suffix={<SearchOutlined />}
-        className="w-[90%] mt-2"
-        placeholder="搜索"
-        allowClear
-      />
+      <div className="w-full mt-2 px-4">
+        <Input
+          onChange={(e) => searchInfo(e)}
+          size="large"
+          suffix={<SearchOutlined />}
+          placeholder="搜索"
+          allowClear
+        />
+      </div>
+
       <div
         id="scrollableDiv"
         className="hide-scrollbar overflow-y-auto h-[calc(100vh-55px)] overflow-x-hidden w-full mt-6  border-r border-solid border-[rgba(140, 140, 140, 0.35)]"
