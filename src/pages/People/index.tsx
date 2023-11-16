@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import ContentLeft from "../../components/ContentLeft";
 import ContentRight from "../../components/ContentRight";
 export default function People() {
