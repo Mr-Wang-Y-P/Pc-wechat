@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 export default function ContentRight() {
