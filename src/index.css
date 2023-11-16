@@ -1,6 +1,24 @@
 body {
   margin: 0;
 }
+/* 隐藏滚动条，但是可以滚动 */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.contentInput{
+  :where(.css-dev-only-do-not-override-qgg3xn).ant-input-affix-wrapper-lg{
+    padding:0 8px;
+    font-size: 20px;
+  }
+}
+:where(.css-dev-only-do-not-override-qgg3xn).ant-input-affix-wrapper{
+  border-radius: 2px
+}
 /* :where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
   .ant-menu-item-selected,
 :where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
