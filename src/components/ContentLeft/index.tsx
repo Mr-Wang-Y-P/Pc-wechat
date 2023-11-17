@@ -56,7 +56,7 @@ function ContentLeft() {
         id="scrollableDiv"
         className="hide-scrollbar overflow-y-auto h-[calc(100vh-55px)] overflow-x-hidden w-full mt-6  border-r border-solid border-[rgba(140, 140, 140, 0.35)]"
       >
-        <div className="flex justify-between leading-[70px] border-b px-4">
+        <div className="flex justify-between h-[70px] border-b px-4 hover:bg-[#efefef]">
           <div className="flex items-center">
             <UserOutlined
               style={{
@@ -66,11 +66,13 @@ function ContentLeft() {
                 height: "40px",
               }}
             />
-            <span className="ml-4 text-[20px]"> 新的朋友</span>
+            <span className="ml-4 max-h-[40px] text-[20px] overflow-hidden">
+              新的朋友
+            </span>
           </div>
           <RightOutlined />
         </div>
-        <div className="flex justify-between leading-[70px] border-b px-4">
+        <div className="flex justify-between h-[70px] border-b px-4 hover:bg-[#efefef]">
           <div className="flex items-center">
             <UsergroupAddOutlined
               style={{
@@ -80,7 +82,9 @@ function ContentLeft() {
                 height: "40px",
               }}
             />
-            <span className="ml-4 text-[20px]"> 群聊</span>
+            <span className="ml-4 max-h-[40px] text-[20px] overflow-hidden">
+              群聊
+            </span>
           </div>
           <RightOutlined />
         </div>
@@ -91,11 +95,12 @@ function ContentLeft() {
                 {item.letter}
               </div>
               {item.users.map((info) => (
-                <div key={info.avatar} className="leading-[70px] border-b px-4">
-                  <div className="flex items-center">
-                    <img className="max-h-[50px]" src={info.avatar} alt="" />
-                    <span className="ml-4 text-[20px]">{info.name}</span>
-                  </div>
+                <div
+                  key={info.avatar}
+                  className="h-[70px] border-b px-4 flex items-center hover:bg-[#efefef]"
+                >
+                  <img className="max-h-[50px]" src={info.avatar} alt="" />
+                  <span className="ml-4 text-[20px]">{info.name}</span>
                 </div>
               ))}
             </div>

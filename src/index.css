@@ -29,10 +29,12 @@ body {
 }
 .LeftSliderTurn {
   animation: slide-out 1s ease-in-out forwards;
+  overflow: hidden;
 }
 
 .LeftSliderCollapsed {
   animation: slide-in 1s ease-in-out forwards;
+  overflow: hidden;
 }
 @keyframes slide-in {
   from {
