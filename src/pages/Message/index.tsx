@@ -6,8 +6,10 @@ import {
   RightCircleOutlined,
   EllipsisOutlined,
   SettingOutlined,
+  PlusCircleOutlined,
+  SendOutlined
 } from "@ant-design/icons";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 export default function Message() {
   const searchMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
@@ -61,7 +63,7 @@ export default function Message() {
         <div className="w-full h-[100vh] border-solid  border-r flex flex-col items-center">
           <div className="w-full mt-2 px-4">
             <Input
-              onChange={(e) => searchMessage(e)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => searchMessage(e)}
               size="large"
               suffix={<SearchOutlined />}
               placeholder="搜索"
@@ -158,25 +160,74 @@ export default function Message() {
               />
             </div>
           </div>
-          <div className="hide-scrollbar h-[calc(100vh-60px)] overflow-auto flex flex-col">
-            <div className="flex-auto min-h-[200px] mb-4">
+          <div className=" h-[calc(100vh-60px)] flex flex-col">
+            <div className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
               <p className="text-center text-[#aeaeae] p-4 ">
                 2023年11月17日 早上9:00
               </p>
               <p className="text-center text-[#aeaeae] p-4">
                 Win 邀请了Tony进入了群聊
               </p>
+              <div className='flex w-[90%] m-4 pr-[70px]'>
+                <img className="max-h-[60px] ml-4"
+                  src={"https://randomuser.me/api/portraits/men/76.jpg"}
+                  alt="" />
+                <div className='ml-4'>
+                  <p className='text-[#aeaeae]'>Tony</p>
+                  <div className='userMessage userMessageLeft'>
+                    大家好，我是Tony!😊
+                  </div>
+                </div>
+              </div>
+              <div className='flex flex-row-reverse w-[90%] m-4 pl-[70px]'>
+                <img className="max-h-[60px] ml-4"
+                  src={"https://randomuser.me/api/portraits/men/18.jpg"}
+                  alt="" />
+                <div className='ml-4'>
+                  <p className='text-[#aeaeae] text-right pr-[18px]'>Win</p>
+                  <div className='userMessage userMessageRight'>
+                    今天，发呆，写代码。
+                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/men/18.jpg" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div className='flex w-[90%] m-4 pr-[70px]'>
+                <img className="max-h-[60px] ml-4"
+                  src={"https://randomuser.me/api/portraits/men/6.jpg"}
+                  alt="" />
+                <div className='ml-4'>
+                  <p className='text-[#aeaeae]'>Jack</p>
+                  <div className='userMessage userMessageLeft'>
+                    今天，你们打算做什么呢？
+                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/men/6.jpg" alt="" />
+                  </div>
+                </div>
+              </div>
+              <div className='flex w-[90%] m-4 pr-[70px]'>
+                <img className="max-h-[60px] ml-4"
+                  src={"https://randomuser.me/api/portraits/women/18.jpg"}
+                  alt="" />
+                <div className='ml-4'>
+                  <p className='text-[#aeaeae]'>Mary</p>
+                  <div className='userMessage userMessageLeft'>
+                    又是无聊的一天！！！😑
+                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/women/18.jpg" alt="" />
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="flex justify-center mb-6 relative">
               <div
-                className="hide-scrollbar max-h-[600px] overflow-auto inline-block w-[90%] border border-solid rounded-2xl px-4 leading-[60px] text-[20px] shadow-lg shadow-slate-400"
+                className="break-all max-w-[90%] flex flex-wrap hide-scrollbar max-h-[600px] overflow-auto whitespace-pre-wrap w-[90%] border border-solid rounded-2xl px-4 leading-[60px] text-[20px] shadow-lg shadow-slate-400"
                 suppressContentEditableWarning
                 contentEditable
                 ref={InputRef}
               >
+
                 This text can be edited by the user.
-                <div className="absolute bottom-0 right-[6%]">
-                  这里是一堆按钮。。。
+                <div className="absolute bottom-1 bg-white h-[56px] rounded-lg right-[6%]">
+                  <PlusCircleOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
+                  <SendOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
                 </div>
               </div>
             </div>

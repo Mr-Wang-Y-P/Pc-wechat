@@ -1,6 +1,7 @@
 body {
   margin: 0;
 }
+
 /* 隐藏滚动条，但是可以滚动 */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -10,23 +11,24 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .contentInput {
   :where(.css-dev-only-do-not-override-qgg3xn).ant-input-affix-wrapper-lg {
     padding: 0 8px;
     font-size: 20px;
   }
 }
+
 :where(.css-dev-only-do-not-override-qgg3xn).ant-input-affix-wrapper {
   border-radius: 2px;
 }
-:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
-  .ant-menu-item-selected,
-:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
-  > .ant-menu
-  .ant-menu-item-selected {
+
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background: transparent;
   color: cornflowerblue;
 }
+
 .LeftSliderTurn {
   animation: slide-out 1s ease-in-out forwards;
   overflow: hidden;
@@ -36,10 +38,12 @@ body {
   animation: slide-in 1s ease-in-out forwards;
   overflow: hidden;
 }
+
 @keyframes slide-in {
   from {
     width: "400px";
   }
+
   to {
     width: 0;
     display: none;
@@ -51,10 +55,63 @@ body {
     width: 0;
     display: none;
   }
+
   to {
     width: "400px";
   }
 }
+
+.userMessage {
+  margin-top: 12px;
+  max-width: none;
+  position: relative;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-all;
+}
+
+.userMessageLeft {
+  margin-left: 8px;
+}
+
+.userMessageLeft::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-right: 16px solid #f5f5f5;
+  border-bottom: 16px solid transparent;
+  position: absolute;
+  left: -26px;
+  top: 20px;
+  transform: translateY(-50%);
+  margin-left: 16px;
+}
+
+.userMessageRight {
+  margin-right: 16px;
+  background-color: #95ec69;
+}
+
+.userMessageRight::before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-left: 12px solid #95ec69;
+  border-bottom: 12px solid transparent;
+  position: absolute;
+  right: -10px;
+  top: 20px;
+  transform: translateY(-50%);
+}
+
 /* :where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
   .ant-menu-item-selected,
 :where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark
