@@ -29,6 +29,26 @@ body {
   color: cornflowerblue;
 }
 
+:where(.css-qgg3xn).ant-menu-dark .ant-menu-item-selected,
+:where(.css-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+  background: transparent;
+  color: cornflowerblue;
+}
+
+:where(.css-qgg3xn).ant-menu-dark .ant-menu-item:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-item:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-qgg3xn).ant-menu-dark .ant-menu-submenu-title:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-submenu-title:not(.ant-menu-item-disabled):focus-visible {
+  outline: none;
+}
+
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark .ant-menu-item:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-item:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark .ant-menu-submenu-title:not(.ant-menu-item-disabled):focus-visible,
+:where(.css-dev-only-do-not-override-qgg3xn).ant-menu-dark>.ant-menu .ant-menu-submenu-title:not(.ant-menu-item-disabled):focus-visible {
+  outline: none;
+}
+
 .LeftSliderTurn {
   animation: slide-out 1s ease-in-out forwards;
   overflow: hidden;
