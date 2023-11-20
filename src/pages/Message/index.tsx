@@ -9,7 +9,11 @@ import {
   PlusCircleOutlined,
   SendOutlined
 } from "@ant-design/icons";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
+
+
 export default function Message() {
   const searchMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
@@ -17,6 +21,10 @@ export default function Message() {
   const [showLeftIcon, setShowLeftIcon] = useState<boolean>(true);
   const LeftSliderRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState<string | null | undefined>("");
+  const [imageFile, setImageFile] = useState<string[]>([]);
+  const [MessageList, setMessageList] = useState<{ name: string; id: number; Img: string; time: string; message: string; infos: string[]; messages: ({ message: string; imgUrls: string[]; avatar: string; avatarName: string; } | { message: string; imgUrls: string[]; avatar: string; avatarName: string; isOwn: true; })[] }[]>([])
+  const [onActiveIndex, setOnActiveIndex] = useState<number>(1)
   const turnIcon = () => {
     setShowLeftIcon(!showLeftIcon);
     const leftSlider = LeftSliderRef.current;
@@ -25,20 +33,104 @@ export default function Message() {
       leftSlider.classList.toggle("LeftSliderTurn", !showLeftIcon);
     }
   };
+  useEffect(() => {
+    console.log(imageFile);
+  }, [imageFile]);
 
+  const sendMessage = () => {
+    console.log(1111);
+
+    const div = InputRef.current;
+    if (div) {
+      const childNodes = div.childNodes;
+      for (let i = childNodes.length - 1; i >= 0; i--) {
+        if (childNodes[i].nodeType === 3) { // 检查节点类型是否为文本节点
+          div.removeChild(childNodes[i]);
+        }
+      }
+      const images = div.querySelectorAll('img');
+      console.log('images', images);
+
+      for (let i = 0; i < images.length; i++) {
+        images[i].remove();
+      }
+      div.contentEditable = 'true';
+      console.log(div.contentEditable);
+    }
+
+    console.log('input', inputValue);
+    setInputValue('')
+    setImageFile([])
+    console.log(MessageList);
+    
+    const curMessageList = JSON.parse(JSON.stringify(MessageList))
+    curMessageList.map((message: { id: number; messages: { message: string | null | undefined; imgUrls: string[]; avatar: string; avatarName: string; isOwn: boolean; }[]; }) => {
+      if (message.id === onActiveIndex) {
+        message.messages.push({
+          'message': inputValue,
+          'imgUrls': imageFile,
+          "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+          "avatarName": 'Win',
+          "isOwn": true,
+        })
+      }
+    })
+    setMessageList(curMessageList)
+    
+  }
+  useEffect(()=>{
+    setMessageList([{
+      "name": "React18 Hooks 开发小组",
+      "id": 1,
+      "Img": "https://randomuser.me/api/portraits/men/72.jpg",
+      'time': '19:01',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }])
+  },[])
   useEffect(() => {
     const div = InputRef.current;
-
     const handleInput = () => {
       console.log(div?.textContent); // 输出当前div的内容
+      setInputValue(div?.textContent)
     };
+   
+
 
     div?.addEventListener("input", handleInput);
     div?.addEventListener("paste", (e) => {
+      console.log('imageFile', imageFile);
       let file = null;
       const items = e.clipboardData?.items;
       if (items && items.length) {
-        for (var i = 0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
           if (items[i].type.indexOf("image") !== -1) {
             file = items[i].getAsFile();
             break;
@@ -46,17 +138,36 @@ export default function Message() {
         }
       }
       if (file) {
-        console.log(file);
+        const blob = URL.createObjectURL(file);
+        console.log('url', blob)
+        setImageFile(imageFile => [...imageFile, blob])
         // 此时获取到file文件对象，即可处理上传相关处理
       }
     });
 
+    div?.addEventListener("keydown", (e) => {
+      console.log(e);
+
+      if (e.key === "Enter") {
+        console.log("Enter")
+        sendMessage()
+      }
+    });
     // 在组件卸载时移除事件监听器
     return () => {
       div?.removeEventListener("input", handleInput);
       div?.removeEventListener("paste", handleInput);
+      div?.removeEventListener("keydown", handleInput);
     };
   }, []); // 依赖数组为空，表示这个effect只在组件挂载和卸载时运行
+
+
+
+
+  const filteredMessages = useMemo(() => {
+    return MessageList.filter(message => message?.id === onActiveIndex);
+  }, [MessageList, onActiveIndex]);
+
   return (
     <div className="flex">
       <div ref={LeftSliderRef} className="w-[400px]">
@@ -72,57 +183,25 @@ export default function Message() {
           </div>
 
           <div className="flex flex-col w-full mt-6">
-            <div className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]">
-              <img
-                className="max-h-[60px]"
-                src={"https://randomuser.me/api/portraits/women/72.jpg"}
-                alt=""
-              />
-              <div className="mx-4 max-w-[60%]">
-                <div className="font-bold truncate">Win</div>
-                <div className="truncate text-[#aeaeae]">
-                  今天天气怎么样呢wwwww我顶顶顶伟大的哇？
+            {MessageList.map(item => (
+              <div key={item.id} className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]">
+                <img
+                  className="max-h-[60px]"
+                  src={item.Img}
+                  alt=""
+                />
+                <div className="mx-4 w-full">
+                  <div className="font-bold truncate">{item.name}</div>
+                  <div className="truncate text-[#aeaeae]">
+                    {item.message}
+                  </div>
+                </div>
+                <div className="w-[40px]">
+                  <div>{item.time}</div>
+                  <div className="h-[24px]"></div>
                 </div>
               </div>
-              <div className="w-[40px]">
-                <div>10:06</div>
-                <div className="h-[24px]"></div>
-              </div>
-            </div>
-            <div className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]">
-              <img
-                className="max-h-[60px]"
-                src={"https://randomuser.me/api/portraits/women/2.jpg"}
-                alt=""
-              />
-              <div className="mx-4 max-w-[60%]">
-                <div className="font-bold truncate">Win</div>
-                <div className="truncate text-[#aeaeae]">
-                  今天天气怎么样呢wwwww我顶顶顶伟大的哇？
-                </div>
-              </div>
-              <div className="w-[40px]">
-                <div>10:06</div>
-                <div className="h-[24px]"></div>
-              </div>
-            </div>
-            <div className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]">
-              <img
-                className="max-h-[60px]"
-                src={"https://randomuser.me/api/portraits/men/72.jpg"}
-                alt=""
-              />
-              <div className="mx-4 max-w-[60%]">
-                <div className="font-bold truncate">Win</div>
-                <div className="truncate text-[#aeaeae]">
-                  今天天气怎么样呢wwwww我顶顶顶伟大的哇？
-                </div>
-              </div>
-              <div className="">
-                <div>10:06</div>
-                <div className="h-[24px]"></div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -148,9 +227,10 @@ export default function Message() {
             }}
           />
         )}
+
         <div className="h-full flex flex-col">
-          <div className="flex justify-between">
-            <p className="text-2xl mx-4 mt-4">React18 Hooks 开发小组</p>
+          <div className="flex justify-between mt-2">
+            <p className="text-2xl mx-4 mt-4">{filteredMessages.name}</p>
             <div className="flex">
               <SettingOutlined
                 style={{ fontSize: "24px", marginRight: "16px" }}
@@ -162,77 +242,46 @@ export default function Message() {
           </div>
           <div className=" h-[calc(100vh-60px)] flex flex-col">
             <div className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
-              <p className="text-center text-[#aeaeae] p-4 ">
-                2023年11月17日 早上9:00
-              </p>
-              <p className="text-center text-[#aeaeae] p-4">
-                Win 邀请了Tony进入了群聊
-              </p>
-              <div className='flex w-[90%] m-4 pr-[70px]'>
-                <img className="max-h-[60px] ml-4"
-                  src={"https://randomuser.me/api/portraits/men/76.jpg"}
-                  alt="" />
-                <div className='ml-4'>
-                  <p className='text-[#aeaeae]'>Tony</p>
-                  <div className='userMessage userMessageLeft'>
-                    大家好，我是Tony!😊
+              {filteredMessages[0]?.infos?.map(info => (
+                <p key={info} className="text-center text-[#aeaeae] p-4 ">
+                  {info}
+                </p>
+              ))}
+              {filteredMessages[0]?.messages?.map(message => (
+                <div key={uuidv4()} className={`flex w-[90%] m-[5%] ${message?.isOwn ? 'flex-row-reverse' : 'pr-[70px]'}`}>
+                  <img className="max-h-[60px] ml-4"
+                    src={message.avatar}
+                    alt="" />
+                  <div className='ml-4'>
+                    <p className={`text-[#aeaeae] ${message?.isOwn ? 'text-right pr-[18px]' : ''}`}>{message.avatarName}</p>
+                    <div className={`userMessage ${message?.isOwn ? 'userMessageRight' : 'userMessageLeft'}`}>
+                      {message.message}
+                      {message.imgUrls.length > 0 && message.imgUrls.map(img => (
+                        <img key={img} className='w-[150px] h-[150px] m-4' src={img} alt="" />
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className='flex flex-row-reverse w-[90%] m-4 pl-[70px]'>
-                <img className="max-h-[60px] ml-4"
-                  src={"https://randomuser.me/api/portraits/men/18.jpg"}
-                  alt="" />
-                <div className='ml-4'>
-                  <p className='text-[#aeaeae] text-right pr-[18px]'>Win</p>
-                  <div className='userMessage userMessageRight'>
-                    今天，发呆，写代码。
-                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/men/18.jpg" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div className='flex w-[90%] m-4 pr-[70px]'>
-                <img className="max-h-[60px] ml-4"
-                  src={"https://randomuser.me/api/portraits/men/6.jpg"}
-                  alt="" />
-                <div className='ml-4'>
-                  <p className='text-[#aeaeae]'>Jack</p>
-                  <div className='userMessage userMessageLeft'>
-                    今天，你们打算做什么呢？
-                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/men/6.jpg" alt="" />
-                  </div>
-                </div>
-              </div>
-              <div className='flex w-[90%] m-4 pr-[70px]'>
-                <img className="max-h-[60px] ml-4"
-                  src={"https://randomuser.me/api/portraits/women/18.jpg"}
-                  alt="" />
-                <div className='ml-4'>
-                  <p className='text-[#aeaeae]'>Mary</p>
-                  <div className='userMessage userMessageLeft'>
-                    又是无聊的一天！！！😑
-                    <img className='w-[200px] h-[200px]' src="https://randomuser.me/api/portraits/women/18.jpg" alt="" />
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
             <div className="flex justify-center mb-6 relative">
               <div
-                className="break-all max-w-[90%] flex flex-wrap hide-scrollbar max-h-[600px] overflow-auto whitespace-pre-wrap w-[90%] border border-solid rounded-2xl px-4 leading-[60px] text-[20px] shadow-lg shadow-slate-400"
+                className="contentEditable break-all max-w-[90%] flex flex-wrap hide-scrollbar max-h-[600px] overflow-auto whitespace-pre-wrap w-[90%] border border-solid rounded-2xl px-4 leading-[60px] text-[20px] shadow-lg shadow-slate-400"
                 suppressContentEditableWarning
-                contentEditable
+                contentEditable={true}
                 ref={InputRef}
               >
 
-                This text can be edited by the user.
-                <div className="absolute bottom-1 bg-white h-[56px] rounded-lg right-[6%]">
-                  <PlusCircleOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
-                  <SendOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
-                </div>
+
+              </div>
+              <div className="flex absolute bottom-1 bg-white h-[56px] rounded-lg right-[6%]">
+                <PlusCircleOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
+                <SendOutlined style={{ fontSize: "24px", marginRight: "16px" }} onClick={sendMessage} />
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   );
