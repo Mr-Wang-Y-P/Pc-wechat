@@ -12,7 +12,7 @@ export default function Action() {
         />
       </div>
       <div className={styles.actionContent}>
-        <div className={styles.actionHeader}>
+        <div className={`${styles.actionHeader} actionHeader`}>
           <div className={styles.actionTitle}>
             <div>Win</div>
             <div>不负韶华</div>

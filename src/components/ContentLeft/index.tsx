@@ -44,7 +44,7 @@ function ContentLeft() {
     <div className="w-full h-[100vh] border-solid  border-r flex flex-col items-center">
       <div className="w-full mt-2 px-4">
         <Input
-          onChange={(e) => searchInfo(e)}
+          onChange={(e:React.ChangeEvent<HTMLInputElement>) => searchInfo(e)}
           size="large"
           suffix={<SearchOutlined />}
           placeholder="搜索"

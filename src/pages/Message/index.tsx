@@ -1,5 +1,5 @@
 // import React from 'react'
-import { Input } from "antd";
+import { Input, Image } from "antd";
 import {
   SearchOutlined,
   LeftCircleOutlined,
@@ -32,13 +32,23 @@ interface MessageListProps {
 export default function Message() {
   const searchMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
+    const input = e.target.value.toLowerCase().trim();
+    if (input === "") {
+      setFilterMessageList(MessageList)
+      // setCurrentData(data);
+    } else {
+      const fileData = MessageList.filter(message => message.name.toLowerCase().trim().includes(input))
+      console.log(fileData);
+      setFilterMessageList(fileData)
+    }
   };
   const [showLeftIcon, setShowLeftIcon] = useState<boolean>(true);
   const LeftSliderRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
-  const [imageFile, setImageFile] = useState<string[]>([]);
+  const [imageFile, setImageFile] = useState<(string)[]>([]);
   const [MessageList, setMessageList] = useState<MessageListProps[]>([])
+  const [filterMessageList, setFilterMessageList] = useState<MessageListProps[]>([])
   const [onActiveIndex, setOnActiveIndex] = useState<number>(1)
   const turnIcon = () => {
     setShowLeftIcon(!showLeftIcon);
@@ -49,7 +59,6 @@ export default function Message() {
     }
   };
 
-
   const sendMessage = () => {
     console.log(1111);
 
@@ -59,8 +68,10 @@ export default function Message() {
       for (let i = childNodes.length - 1; i >= 0; i--) {
         if (childNodes[i].nodeType === 3) { // 检查节点类型是否为文本节点
           div.removeChild(childNodes[i]);
+         
         }
       }
+      div.textContent = '';
       const images = div.querySelectorAll('img');
       console.log('images', images);
 
@@ -72,6 +83,7 @@ export default function Message() {
     }
 
     console.log('input', inputValue);
+
     setInputValue('')
     setImageFile([])
     console.log(MessageList);
@@ -88,8 +100,20 @@ export default function Message() {
         })
       }
     })
+    const curFilterMessageList = JSON.parse(JSON.stringify(filterMessageList))
+    curFilterMessageList.map((message: MessageListProps) => {
+      if (message.id === onActiveIndex) {
+        message.messages.push({
+          'message': inputValue,
+          'imgUrls': imageFile,
+          "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+          "avatarName": 'Win',
+          "isOwn": true,
+        })
+      }
+    })
     setMessageList(curMessageList)
-
+    setFilterMessageList(curFilterMessageList)
   }
   useEffect(() => {
     setMessageList([{
@@ -164,8 +188,8 @@ export default function Message() {
     }, {
       "name": "React18",
       "id": 3,
-      "Img": "https://randomuser.me/api/portraits/men/72.jpg",
-      'time': '19:01',
+      "Img": "https://randomuser.me/api/portraits/women/67.jpg",
+      'time': '11:11',
       "message": '那听起来不错',
       "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
       "messages": [{
@@ -198,8 +222,146 @@ export default function Message() {
     }, {
       "name": "开发小组",
       "id": 4,
+      "Img": "https://randomuser.me/api/portraits/men/2.jpg",
+      'time': '13:14',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错4",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }])
+    setFilterMessageList([{
+      "name": "React18 Hooks 开发小组",
+      "id": 1,
       "Img": "https://randomuser.me/api/portraits/men/72.jpg",
       'time': '19:01',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错1",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    },
+    {
+      "name": "Vue开发小组",
+      "id": 2,
+      "Img": "https://randomuser.me/api/portraits/men/12.jpg",
+      'time': '14:01',
+      "message": 'VUEX',
+      "infos": [' 2023年11月17日 早上9:00', ' Tom 邀请了Jack进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错2",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/1.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/1.jpg',
+        "avatarName": 'Alice'
+      }, {
+        "message": "vue语法是怎样的？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/22.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/22.jpg',
+        "avatarName": 'Bob'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "VUE2 VUE3",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }, {
+      "name": "React18",
+      "id": 3,
+      "Img": "https://randomuser.me/api/portraits/women/67.jpg",
+      'time': '11:11',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错3",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }, {
+      "name": "开发小组",
+      "id": 4,
+      "Img": "https://randomuser.me/api/portraits/men/2.jpg",
+      'time': '13:14',
       "message": '那听起来不错',
       "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
       "messages": [{
@@ -247,17 +409,36 @@ export default function Message() {
       const items = e.clipboardData?.items;
       if (items && items.length) {
         for (let i = 0; i < items.length; i++) {
-          if (items[i].type.indexOf("image") !== -1) {
+          console.log(items[i]);
+
+          if (items[i].type.indexOf("image") !== -1 || items[i].type.indexOf("text/plain") !== -1 || items[i].type.indexOf("image/png") !== -1) {
+
+
             file = items[i].getAsFile();
+            console.log(file);
             break;
           }
         }
       }
       if (file) {
         const blob = URL.createObjectURL(file);
-        console.log('url', blob)
-        setImageFile(imageFile => [...imageFile, blob])
-        // 此时获取到file文件对象，即可处理上传相关处理
+        setImageFile(imageFile => [...imageFile, blob]);
+        // 此时获取到 file 文件对象，即可处理上传相关处理
+      } else {
+        // 如果粘贴的不是图像文件，则执行其他操作或忽略该事件
+        // e.preventDefault();
+        const html = e.clipboardData?.getData("text/html");
+        if (html) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, "text/html");
+          const images =  Array.from(doc.querySelectorAll("img"));
+          const texts = Array.from(doc.querySelectorAll("text"));
+          const text = texts.map(node => node.textContent).join('');
+          const imageUrls = Array.from(images.map(node => node.getAttribute("src")));
+          setInputValue(text);
+          setImageFile(imageFile => [...imageFile, ...imageUrls] as string[]);
+
+        }
       }
     });
 
@@ -315,7 +496,7 @@ export default function Message() {
           </div>
 
           <div className="flex flex-col w-full mt-6">
-            {MessageList.map(item => (
+            {filterMessageList.map(item => (
               <div key={item.id} className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]" onClick={() => setOnActiveIndex(item.id)}>
                 <img
                   className="max-h-[60px]"
@@ -379,7 +560,7 @@ export default function Message() {
                   {info}
                 </p>
               ))}
-              {filteredMessages?.messages?.map((message:MessageProps) => (
+              {filteredMessages?.messages?.map((message: MessageProps) => (
                 <div key={uuidv4()} className={`flex w-[90%] m-[5%] ${message?.isOwn ? 'flex-row-reverse' : 'pr-[70px]'}`}>
                   <img className="max-h-[60px] ml-4"
                     src={message.avatar}
@@ -388,9 +569,12 @@ export default function Message() {
                     <p className={`text-[#aeaeae] ${message?.isOwn ? 'text-right pr-[18px]' : ''}`}>{message.avatarName}</p>
                     <div className={`userMessage ${message?.isOwn ? 'userMessageRight' : 'userMessageLeft'}`}>
                       {message.message}
-                      {message.imgUrls.length > 0 && message.imgUrls.map((img: string) => (
-                        <img key={img} className='w-[150px] h-[150px] m-4' src={img} alt="" />
-                      ))}
+                      {message.imgUrls.length > 0 ? <Image.PreviewGroup>
+                        {message.imgUrls.map((img: string) => (
+                          <Image height={160} className='p-2' key={img} src={img} />
+                          // <img key={img} className='w-[150px] h-[150px] m-4' src={img} alt="" />
+                        ))}
+                      </Image.PreviewGroup> : null}
                     </div>
                   </div>
                 </div>
@@ -406,7 +590,7 @@ export default function Message() {
 
 
               </div>
-              <div className="flex absolute bottom-1 bg-white h-[56px] rounded-lg right-[6%]">
+              <div className="buttons flex absolute bottom-1 bg-white h-[56px] rounded-lg right-[6%]">
                 <PlusCircleOutlined style={{ fontSize: "24px", marginRight: "16px" }} />
                 <SendOutlined style={{ fontSize: "24px", marginRight: "16px" }} onClick={sendMessage} />
               </div>
