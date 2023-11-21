@@ -12,8 +12,23 @@ import {
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
+interface MessageProps {
+  message: string;
+  imgUrls: string[];
+  avatar: string;
+  avatarName: string;
+  isOwn?: boolean;
+}
+interface MessageListProps {
+  name: string;
+  id: number;
+  Img: string;
+  time: string;
+  message: string;
+  infos: string[];
+  messages: MessageProps[];
 
-
+}
 export default function Message() {
   const searchMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
@@ -21,9 +36,9 @@ export default function Message() {
   const [showLeftIcon, setShowLeftIcon] = useState<boolean>(true);
   const LeftSliderRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
-  const [inputValue, setInputValue] = useState<string | null | undefined>("");
+  const [inputValue, setInputValue] = useState<string>("");
   const [imageFile, setImageFile] = useState<string[]>([]);
-  const [MessageList, setMessageList] = useState<{ name: string; id: number; Img: string; time: string; message: string; infos: string[]; messages: ({ message: string; imgUrls: string[]; avatar: string; avatarName: string; } | { message: string; imgUrls: string[]; avatar: string; avatarName: string; isOwn: true; })[] }[]>([])
+  const [MessageList, setMessageList] = useState<MessageListProps[]>([])
   const [onActiveIndex, setOnActiveIndex] = useState<number>(1)
   const turnIcon = () => {
     setShowLeftIcon(!showLeftIcon);
@@ -62,7 +77,7 @@ export default function Message() {
     console.log(MessageList);
 
     const curMessageList = JSON.parse(JSON.stringify(MessageList))
-    curMessageList.map((message: { id: number; messages: { message: string | null | undefined; imgUrls: string[]; avatar: string; avatarName: string; isOwn: boolean; }[]; }) => {
+    curMessageList.map((message: MessageListProps) => {
       if (message.id === onActiveIndex) {
         message.messages.push({
           'message': inputValue,
@@ -220,7 +235,7 @@ export default function Message() {
     const div = InputRef.current;
     const handleInput = () => {
       console.log(div?.textContent); // 输出当前div的内容
-      setInputValue(div?.textContent)
+      setInputValue(div?.textContent as string);
     };
 
 
@@ -359,12 +374,12 @@ export default function Message() {
           </div>
           <div className=" h-[calc(100vh-60px)] flex flex-col">
             <div className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
-              {filteredMessages[0]?.infos?.map(info => (
+              {filteredMessages[0]?.infos?.map((info: any) => (
                 <p key={info} className="text-center text-[#aeaeae] p-4 ">
                   {info}
                 </p>
               ))}
-              {filteredMessages[0]?.messages?.map(message => (
+              {filteredMessages[0]?.messages?.map((message: { isOwn: any; avatar: any; avatarName: any; message: any; imgUrls: any[]; }) => (
                 <div key={uuidv4()} className={`flex w-[90%] m-[5%] ${message?.isOwn ? 'flex-row-reverse' : 'pr-[70px]'}`}>
                   <img className="max-h-[60px] ml-4"
                     src={message.avatar}
@@ -373,7 +388,7 @@ export default function Message() {
                     <p className={`text-[#aeaeae] ${message?.isOwn ? 'text-right pr-[18px]' : ''}`}>{message.avatarName}</p>
                     <div className={`userMessage ${message?.isOwn ? 'userMessageRight' : 'userMessageLeft'}`}>
                       {message.message}
-                      {message.imgUrls.length > 0 && message.imgUrls.map(img => (
+                      {message.imgUrls.length > 0 && message.imgUrls.map((img: any) => (
                         <img key={img} className='w-[150px] h-[150px] m-4' src={img} alt="" />
                       ))}
                     </div>
