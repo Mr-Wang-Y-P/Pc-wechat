@@ -362,7 +362,7 @@ export default function Message() {
 
         <div className="h-full flex flex-col">
           <div className="flex justify-between mt-2">
-            <p className="text-2xl mx-4 mt-4">{filteredMessages.name}</p>
+            <p className="text-2xl mx-4 mt-4">{filteredMessages[0].name}</p>
             <div className="flex">
               <SettingOutlined
                 style={{ fontSize: "24px", marginRight: "16px" }}
@@ -374,12 +374,12 @@ export default function Message() {
           </div>
           <div className=" h-[calc(100vh-60px)] flex flex-col">
             <div className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
-              {filteredMessages[0]?.infos?.map((info: any) => (
+              {filteredMessages[0]?.infos?.map((info: string) => (
                 <p key={info} className="text-center text-[#aeaeae] p-4 ">
                   {info}
                 </p>
               ))}
-              {filteredMessages[0]?.messages?.map((message: { isOwn: any; avatar: any; avatarName: any; message: any; imgUrls: any[]; }) => (
+              {filteredMessages[0]?.messages?.map((message:MessageProps) => (
                 <div key={uuidv4()} className={`flex w-[90%] m-[5%] ${message?.isOwn ? 'flex-row-reverse' : 'pr-[70px]'}`}>
                   <img className="max-h-[60px] ml-4"
                     src={message.avatar}
@@ -388,7 +388,7 @@ export default function Message() {
                     <p className={`text-[#aeaeae] ${message?.isOwn ? 'text-right pr-[18px]' : ''}`}>{message.avatarName}</p>
                     <div className={`userMessage ${message?.isOwn ? 'userMessageRight' : 'userMessageLeft'}`}>
                       {message.message}
-                      {message.imgUrls.length > 0 && message.imgUrls.map((img: any) => (
+                      {message.imgUrls.length > 0 && message.imgUrls.map((img: string) => (
                         <img key={img} className='w-[150px] h-[150px] m-4' src={img} alt="" />
                       ))}
                     </div>
