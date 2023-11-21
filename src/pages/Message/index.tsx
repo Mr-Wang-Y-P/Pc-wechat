@@ -33,9 +33,7 @@ export default function Message() {
       leftSlider.classList.toggle("LeftSliderTurn", !showLeftIcon);
     }
   };
-  useEffect(() => {
-    console.log(imageFile);
-  }, [imageFile]);
+
 
   const sendMessage = () => {
     console.log(1111);
@@ -62,7 +60,7 @@ export default function Message() {
     setInputValue('')
     setImageFile([])
     console.log(MessageList);
-    
+
     const curMessageList = JSON.parse(JSON.stringify(MessageList))
     curMessageList.map((message: { id: number; messages: { message: string | null | undefined; imgUrls: string[]; avatar: string; avatarName: string; isOwn: boolean; }[]; }) => {
       if (message.id === onActiveIndex) {
@@ -76,9 +74,9 @@ export default function Message() {
       }
     })
     setMessageList(curMessageList)
-    
+
   }
-  useEffect(()=>{
+  useEffect(() => {
     setMessageList([{
       "name": "React18 Hooks 开发小组",
       "id": 1,
@@ -87,7 +85,110 @@ export default function Message() {
       "message": '那听起来不错',
       "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
       "messages": [{
-        "message": "今天天气真不错",
+        "message": "今天天气真不错1",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    },
+    {
+      "name": "Vue开发小组",
+      "id": 2,
+      "Img": "https://randomuser.me/api/portraits/men/12.jpg",
+      'time': '14:01',
+      "message": 'VUEX',
+      "infos": [' 2023年11月17日 早上9:00', ' Tom 邀请了Jack进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错2",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/1.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/1.jpg',
+        "avatarName": 'Alice'
+      }, {
+        "message": "vue语法是怎样的？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/22.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/22.jpg',
+        "avatarName": 'Bob'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "VUE2 VUE3",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }, {
+      "name": "React18",
+      "id": 3,
+      "Img": "https://randomuser.me/api/portraits/men/72.jpg",
+      'time': '19:01',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错3",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }, {
+        "message": "要不要出去玩呢？",
+        "imgUrls": ['https://randomuser.me/api/portraits/women/72.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/women/72.jpg',
+        "avatarName": 'Mary'
+      }, {
+        "message": "我觉得相当不错！",
+        "imgUrls": [],
+        "avatar": 'https://randomuser.me/api/portraits/men/14.jpg',
+        "avatarName": 'Tom'
+      }, {
+        "message": "出去散步怎么样？",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/62.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/62.jpg',
+        "avatarName": 'Win',
+        "isOwn": true
+      }, {
+        "message": "那听起来不错",
+        "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg', 'https://randomuser.me/api/portraits/men/15.jpg'],
+        "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
+        "avatarName": 'Jack'
+      }],
+    }, {
+      "name": "开发小组",
+      "id": 4,
+      "Img": "https://randomuser.me/api/portraits/men/72.jpg",
+      'time': '19:01',
+      "message": '那听起来不错',
+      "infos": [' 2023年11月17日 早上9:00', ' Win 邀请了Tom进入了群聊'],
+      "messages": [{
+        "message": "今天天气真不错4",
         "imgUrls": ['https://randomuser.me/api/portraits/men/72.jpg'],
         "avatar": 'https://randomuser.me/api/portraits/men/72.jpg',
         "avatarName": 'Jack'
@@ -114,14 +215,14 @@ export default function Message() {
         "avatarName": 'Jack'
       }],
     }])
-  },[])
+  }, [])
   useEffect(() => {
     const div = InputRef.current;
     const handleInput = () => {
       console.log(div?.textContent); // 输出当前div的内容
       setInputValue(div?.textContent)
     };
-   
+
 
 
     div?.addEventListener("input", handleInput);
@@ -145,23 +246,39 @@ export default function Message() {
       }
     });
 
-    div?.addEventListener("keydown", (e) => {
-      console.log(e);
+    // div?.addEventListener("keydown", (e) => {
+    //   console.log(e);
 
-      if (e.key === "Enter") {
-        console.log("Enter")
-        sendMessage()
-      }
-    });
+    //   if (e.key === "Enter") {
+    //     console.log("Enter")
+    //     sendMessage()
+    //   }
+    // });
     // 在组件卸载时移除事件监听器
     return () => {
       div?.removeEventListener("input", handleInput);
       div?.removeEventListener("paste", handleInput);
-      div?.removeEventListener("keydown", handleInput);
+      // div?.removeEventListener("keydown", handleInput);
     };
   }, []); // 依赖数组为空，表示这个effect只在组件挂载和卸载时运行
 
+  // useEffect(() => {
+  //   const div = InputRef.current;
+  //   const HandleKeyDown = (e: { key: string; }) => {
+  //     console.log(e);
 
+  //     if (e.key === "Enter") {
+  //       console.log("Enter")
+  //       sendMessage()
+  //     }
+  //   }
+
+
+  //   div?.addEventListener("keydown", HandleKeyDown);
+  //   return () => {
+  //     div?.removeEventListener("keydown",HandleKeyDown);
+  //   };
+  // }, [])
 
 
   const filteredMessages = useMemo(() => {
@@ -184,7 +301,7 @@ export default function Message() {
 
           <div className="flex flex-col w-full mt-6">
             {MessageList.map(item => (
-              <div key={item.id} className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]">
+              <div key={item.id} className="h-[80px] flex items-center px-4 border-b  hover:bg-[#efefef]" onClick={() => setOnActiveIndex(item.id)}>
                 <img
                   className="max-h-[60px]"
                   src={item.Img}
