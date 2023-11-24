@@ -44,6 +44,7 @@ export default function Message() {
   };
   const [showLeftIcon, setShowLeftIcon] = useState<boolean>(true);
   const LeftSliderRef = useRef<HTMLDivElement>(null);
+  const MessageBoxRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [imageFile, setImageFile] = useState<(string)[]>([]);
@@ -60,15 +61,13 @@ export default function Message() {
   };
 
   const sendMessage = () => {
-    console.log(1111);
-
     const div = InputRef.current;
     if (div) {
       const childNodes = div.childNodes;
       for (let i = childNodes.length - 1; i >= 0; i--) {
         if (childNodes[i].nodeType === 3) { // 检查节点类型是否为文本节点
           div.removeChild(childNodes[i]);
-         
+
         }
       }
       div.textContent = '';
@@ -114,6 +113,7 @@ export default function Message() {
     })
     setMessageList(curMessageList)
     setFilterMessageList(curFilterMessageList)
+    console.log(MessageBoxRef);
   }
   useEffect(() => {
     setMessageList([{
@@ -431,7 +431,7 @@ export default function Message() {
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, "text/html");
-          const images =  Array.from(doc.querySelectorAll("img"));
+          const images = Array.from(doc.querySelectorAll("img"));
           const texts = Array.from(doc.querySelectorAll("text"));
           const text = texts.map(node => node.textContent).join('');
           const imageUrls = Array.from(images.map(node => node.getAttribute("src")));
@@ -457,7 +457,14 @@ export default function Message() {
       // div?.removeEventListener("keydown", handleInput);
     };
   }, []); // 依赖数组为空，表示这个effect只在组件挂载和卸载时运行
-
+  useEffect(() => {
+    if (MessageBoxRef.current) {
+      MessageBoxRef.current.scrollTo({
+        top: MessageBoxRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [MessageList,filterMessageList]);
   // useEffect(() => {
   //   const div = InputRef.current;
   //   const HandleKeyDown = (e: { key: string; }) => {
@@ -554,7 +561,7 @@ export default function Message() {
             </div>
           </div>
           <div className=" h-[calc(100vh-60px)] flex flex-col">
-            <div className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
+            <div ref={MessageBoxRef} className="hide-scrollbar  overflow-auto  flex-auto min-h-[200px] mb-4">
               {filteredMessages?.infos?.map((info: string) => (
                 <p key={info} className="text-center text-[#aeaeae] p-4 ">
                   {info}

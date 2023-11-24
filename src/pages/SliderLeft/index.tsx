@@ -47,14 +47,20 @@ const items: MenuItem[] = [
   getItem("主题", "theme", <DesktopOutlined />),
   getItem("设置", "setting", <SettingOutlined />),
 ];
+interface SliderLeftProps {
+  onToggleDarkMode: () => void;
+}
 
-const SliderLeft: React.FC = () => {
+const SliderLeft: React.FC<SliderLeftProps> = (props: { onToggleDarkMode: () => void; }) => {
   const navigate = useNavigate();
 
   function jumpPage(info: MenuInfo): void {
     console.log(info);
-    if(info.key === 'message' || info.key === 'collect' || info.key === 'action' || info.key === 'people'){
-            navigate(info.key);
+    if (info.key === 'message' || info.key === 'collect' || info.key === 'action' || info.key === 'people') {
+      navigate(info.key);
+    }
+    if (info.key === 'theme') {
+      props.onToggleDarkMode()
     }
 
   }
